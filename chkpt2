@@ -1,0 +1,37 @@
+const fetch = require('node-fetch') 
+
+function fetchPokemon(){
+  fetch('https://pokeapi.co/api/v2/pokemon')
+  .then(response => response.json())
+  .then(function(allpokemon){
+    allpokemon.results.forEach(function(pokemon){
+      fetchPokemonData(pokemon); 
+  })
+ })
+}
+
+function fetchPokemonData(pokemon){
+let url = pokemon.url // <--- this is saving the pokemon url to a variable to use in a fetch.(Ex: https://pokeapi.co/api/v2/pokemon/1/)
+  fetch(url)
+  .then(response => response.json())
+  .then(function(pokeData){
+    pokeData.results.forEach(function(pokemon){
+      outputPokemonData(pokemon);
+    })
+  })
+}
+
+function outputPokemonData(pokeData){
+let pokeName = pokeData.name + "\n"
+let pokeTypes = createTypes(pokeData.types) 
+}
+
+function createTypes(types){
+  var type;
+  types.forEach(function(type){
+  type += type['type']['name'];
+  })
+  return type;
+}
+
+fetchPokemon()
